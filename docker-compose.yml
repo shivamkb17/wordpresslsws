@@ -18,12 +18,12 @@ services:
     env_file:
       - .env
     volumes:
-        - /var/lib/docker/volumes/lswsconf/_data:/usr/local/lsws/conf
-        - /var/lib/docker/volumes/lswsadminconf/_data:/usr/local/lsws/admin/conf
-        - /var/lib/docker/volumes/lswsbin/_data:/usr/local/bin
-        - /var/lib/docker/volumes/lswssites/_data:/var/www/vhosts/
-        - /var/lib/docker/volumes/lswsacme/_data:/root/.acme.sh/
-        - /var/lib/docker/volumes/lswslogs/_data:/usr/local/lsws/logs/
+        - /var/lib/docker/volumes/lswsdata/lsws/conf:/usr/local/lsws/conf
+        - /var/lib/docker/volumes/lswsdata/lsws/admin/conf:/usr/local/lsws/admin/conf
+        - /var/lib/docker/volumes/lswsdata/bin/container:/usr/local/bin
+        - /var/lib/docker/volumes/lswsdata/sites:/var/www/vhosts/
+        - /var/lib/docker/volumes/lswsdata/acme:/root/.acme.sh/
+        - /var/lib/docker/volumes/lswsdata/logs:/usr/local/lsws/logs/
     ports:
       - 8083:80
       - 6443:443
