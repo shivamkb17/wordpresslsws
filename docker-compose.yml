@@ -6,7 +6,7 @@ services:
     volumes:
       - "./data/db:/var/lib/mysql:delegated"
     ports:
-       - "3306:3306"
+       - "3386:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -25,10 +25,10 @@ services:
         - ./acme:/root/.acme.sh/
         - ./logs:/usr/local/lsws/logs/
     ports:
-      - 80:80
-      - 443:443
-      - 443:443/udp
-      - 7080:7080
+      - 8083:80
+      - 6443:443
+      - 6443:443/udp
+      - 7089:7080
     restart: always
     environment:
       TZ: ${TimeZone}
