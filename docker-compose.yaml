@@ -1,0 +1,42 @@
+version: '3'
+services:
+  mysql:
+    image: mariadb:10.5.9
+    command: --max_allowed_packet=256M --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - "/var/lib/docker/volumes/lswsdbdata/_data:/var/lib/mysql:delegated"
+    ports:
+       - "3386:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: always  
+  litespeed:
+    image: litespeedtech/litespeed:${LSWS_VERSION}-${PHP_VERSION}
+    env_file:
+      - .env
+    volumes:
+        - /var/lib/docker/volumes/lswsdata/lsws/conf:/usr/local/lsws/conf
+        - /var/lib/docker/volumes/lswsdata/lsws/admin/conf:/usr/local/lsws/admin/conf
+        - /var/lib/docker/volumes/lswsdata/bin/container:/usr/local/bin
+        - /var/lib/docker/volumes/lswsdata/sites:/var/www/vhosts/
+        - /var/lib/docker/volumes/lswsdata/acme:/root/.acme.sh/
+        - /var/lib/docker/volumes/lswsdata/logs:/usr/local/lsws/logs/
+    ports:
+      - 8083:80
+      - 6443:443
+      - 6443:443/udp
+      - 7089:7080
+    restart: always
+    environment:
+      TZ: ${TimeZone}
+  phpmyadmin:
+    image: bitnami/phpmyadmin:5.0.2-debian-10-r72
+    ports:
+      - 8080:80
+      - 8443:443
+    environment:
+        DATABASE_HOST: mysql
+    restart: always    
