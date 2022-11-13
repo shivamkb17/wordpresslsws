@@ -4,7 +4,7 @@ services:
     image: mariadb:10.5.9
     command: --max_allowed_packet=256M --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - "./data/db:/var/lib/mysql:delegated"
+      - "/var/lib/docker/volumes/lswsdbdata/_data:/var/lib/mysql:delegated"
     ports:
        - "3386:3306"
     environment:
@@ -18,12 +18,12 @@ services:
     env_file:
       - .env
     volumes:
-        - ./lsws/conf:/usr/local/lsws/conf
-        - ./lsws/admin/conf:/usr/local/lsws/admin/conf
-        - ./bin/container:/usr/local/bin
-        - ./sites:/var/www/vhosts/
-        - ./acme:/root/.acme.sh/
-        - ./logs:/usr/local/lsws/logs/
+        - /var/lib/docker/volumes/lswsconf/_data:/usr/local/lsws/conf
+        - /var/lib/docker/volumes/lswsadminconf/_data:/usr/local/lsws/admin/conf
+        - /var/lib/docker/volumes/lswsbin/_data:/usr/local/bin
+        - /var/lib/docker/volumes/lswssites/_data:/var/www/vhosts/
+        - /var/lib/docker/volumes/lswsacme/_data:/root/.acme.sh/
+        - /var/lib/docker/volumes/lswslogs/_data:/usr/local/lsws/logs/
     ports:
       - 8083:80
       - 6443:443
